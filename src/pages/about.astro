@@ -1,0 +1,17 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { Center, Container, Stack, Text } from "lism-css/astro";
+---
+
+<Layout title="About - Astro with Lism CSS">
+  <Center minH="30svh" bgc="base-2">
+    <Stack g="10" ai="c">
+      <Text fz="2xl" fw="normal" lts="xl">About</Text>
+    </Stack>
+  </Center>
+  <Container size="m">
+    <Stack py="40">
+      <Text>これはサンプルAboutページです</Text>
+    </Stack>
+  </Container>
+</Layout>
