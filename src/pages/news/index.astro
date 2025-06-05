@@ -1,0 +1,30 @@
+---
+import { getNews } from "@libraries/microcms";
+import Layout from "@layouts/Layout.astro";
+import News from "@components/News.astro";
+import { Center, Container, Stack, Text } from "lism-css/astro";
+import {
+  SITE_NAME,
+  NEWS_LIST_LIMIT,
+  SITE_DISCRIPTION,
+} from "@constants/index.astro";
+
+//microCMS呼び出し
+const response = await getNews({
+  fields: ["id", "title", "description", "category", "thumbnail"],
+  limit: NEWS_LIST_LIMIT,
+});
+---
+
+<Layout title="News - Astro with Lism CSS">
+  <Center minH="30svh" bgc="base-2">
+    <Stack g="10" ai="c">
+      <Text fz="2xl" fw="normal" lts="xl">News</Text>
+    </Stack>
+  </Center>
+  <Container size="m">
+    <Stack py="40">
+      <News news={response.contents} />
+    </Stack>
+  </Container>
+</Layout>

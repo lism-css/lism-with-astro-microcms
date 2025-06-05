@@ -9,8 +9,8 @@
       "@layouts/*": [
         "src/layouts/*"
       ],
-      "@library/*": [
-        "src/library/*"
+      "@libraries/*": [
+        "src/libraries/*"
       ],
       "@constants/*": [
         "src/constants/*"

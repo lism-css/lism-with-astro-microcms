@@ -1,0 +1,63 @@
+---
+interface Props {
+  news: News[];
+}
+
+const { news } = Astro.props;
+
+import { DEFAULT_THUMBNAIL_URL } from "@constants/index.astro";
+import type { News } from "@libraries/microcms";
+import {
+  Box,
+  Frame,
+  Grid,
+  Link,
+  LinkBox,
+  Lism,
+  Media,
+  Stack,
+  Text,
+} from "lism-css/astro";
+---
+
+<Lism tag="ul" pl="0" bd="t" bdc="divider">
+  {
+    news.map((content: any) => (
+      <LinkBox tag="li" key={content.id} bd="b" bdc="divider" py="40">
+        <Grid gtc="min(16rem, 30vw) 1fr" g="40">
+          {content.thumbnail ? (
+            <Frame ar="16/9">
+              <Media
+                src={content.thumbnail.url}
+                alt=""
+                width="200"
+                height="140"
+                objectFit="cover"
+              />
+            </Frame>
+          ) : (
+            <Frame ar="16/9">
+              <Media
+                src={DEFAULT_THUMBNAIL_URL}
+                alt=""
+                width="200"
+                height="140"
+                objectFit="cover"
+              />
+            </Frame>
+          )}
+          <Stack ai="fs" jc="c" g="20">
+            <Box fz="s" variant="outline">
+              {content.category.name}
+            </Box>
+            <Text fz="l" fw="bold">
+              <Link isOverlayLink href={`/news/${content.id}`}>
+                {content.title}
+              </Link>
+            </Text>
+          </Stack>
+        </Grid>
+      </LinkBox>
+    ))
+  }
+</Lism>
