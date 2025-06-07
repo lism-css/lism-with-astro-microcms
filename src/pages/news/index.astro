@@ -17,12 +17,12 @@ const response = await getNews({
 ---
 
 <Layout title="News - Astro with Lism CSS">
-  <Center minH="30svh" bgc="base-2">
+  <Center minH="30svh" bgc="base-1">
     <Stack g="10" ai="c">
       <Text fz="2xl" fw="normal" lts="xl">News</Text>
     </Stack>
   </Center>
-  <Container size="m">
+  <Container size="m" hasGutter>
     <Stack py="40">
       <News news={response.contents} />
     </Stack>

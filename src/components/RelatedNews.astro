@@ -1,0 +1,60 @@
+---
+interface Props {
+  relatedNews: News[];
+  categoryName?: string;
+  limit?: number;
+}
+
+const {
+  relatedNews,
+  categoryName = NEWS_LABEL_NAME,
+  limit = RELATED_NEWS_LIST_LIMIT,
+} = Astro.props;
+
+import type { News } from "@libraries/microcms";
+import {
+  NEWS_LABEL_NAME,
+  NEWS_BASE_PATH,
+  RELATED_NEWS_LIST_LIMIT,
+} from "@constants/index.astro";
+import { Frame, Grid, LinkBox, Media, Stack, Text } from "lism-css/astro";
+---
+
+<Stack g="40">
+  <Text fz="2xl" fw="bold" ta="c">最近の{categoryName}</Text>
+  <Grid gtc={["1fr", null, "repeat(3, 1fr)"]} g="50">
+    {
+      relatedNews.map((content: any) => (
+        <LinkBox href={`${NEWS_BASE_PATH}/${content.id}`}>
+          <Frame ar="16/9">
+            {content.thumbnail ? (
+              <Media
+                src={content.thumbnail.url}
+                alt=""
+                width="200"
+                height="140"
+                objectFit="cover"
+              />
+            ) : (
+              <Media
+                src="https://picsum.photos/id/47/640/480"
+                alt=""
+                width="200"
+                height="140"
+                objectFit="cover"
+              />
+            )}
+          </Frame>
+          <Stack c="content" g="20" pt="30">
+            <Text fz="m" fw="bold">
+              {content.title}
+            </Text>
+            <Text fz="xs" c="text-2">
+              {content.description}
+            </Text>
+          </Stack>
+        </LinkBox>
+      ))
+    }
+  </Grid>
+</Stack>

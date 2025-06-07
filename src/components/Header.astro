@@ -5,14 +5,23 @@ import { Box, Container, Flex, Grid, Link, Lism, Text } from "lism-css/astro";
 <Container tag="header" size="l" hasGutter>
   <Grid gtc={["auto 1fr"]} ai="c" py="30">
     <Link href="/" class="c--header__logo" d="b" p="10" c="text-1">
-      <Text tag="h1" fz="xl" fw="normal" lts="xl">LismAstro</Text>
+      <Text tag="h1" fz="2xl" fw="normal" lts="xl">LismAstro</Text>
     </Link>
     <Lism tag="nav">
       <Flex tag="ul" jc="fe" g="10">
-        <Box tag="li"><Link href="/" d="b" p="20">Home</Link></Box>
-        <Box tag="li"><Link href="/about" d="b" p="20">About</Link></Box>
-        <Box tag="li"><Link href="/news" d="b" p="20">News</Link></Box>
-        <Box tag="li"><Link href="/contact" d="b" p="20">Contact</Link></Box>
+        <Box tag="li"
+          ><Link href="/" d="b" p="30" c="text-1" td="n">Home</Link></Box
+        >
+        <Box tag="li"
+          ><Link href="/about" d="b" p="30" c="text-1" td="n">About</Link></Box
+        >
+        <Box tag="li"
+          ><Link href="/news" d="b" p="30" c="text-1" td="n">News</Link></Box
+        >
+        <Box tag="li"
+          ><Link href="/contact" d="b" p="30" c="text-1" td="n">Contact</Link
+          ></Box
+        >
       </Flex>
     </Lism>
   </Grid>

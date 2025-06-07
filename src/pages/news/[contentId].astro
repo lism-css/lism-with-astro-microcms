@@ -1,0 +1,125 @@
+---
+import type { News } from "@libraries/microcms";
+import { getNews, getNewsDetail, getAllNews } from "@libraries/microcms";
+import { formatDate } from "@libraries/utils";
+import Layout from "@layouts/Layout.astro";
+import Profile from "@components/Profile.astro";
+import PrevNext from "@components/PrevNext.astro";
+import RelatedNews from "@components/RelatedNews.astro";
+import {
+  Box,
+  Container,
+  Flex,
+  Frame,
+  Link,
+  Media,
+  Stack,
+  Text,
+} from "lism-css/astro";
+import {
+  SITE_NAME,
+  NEWS_BASE_PATH,
+  CATEGORY_BASE_PATH,
+  RELATED_NEWS_LIST_LIMIT,
+} from "@constants/index.astro";
+
+// 詳細記事ページの全パスを取得
+//   <メモ>
+//   SSGの場合全ての記事のルートをビルド時に決める
+//   必要があるのでgetAllContentsで取得
+export async function getStaticPaths() {
+  const response = await getAllNews({ fields: ["id"] });
+  return response.map((content: any) => ({
+    params: {
+      contentId: content.id,
+    },
+  }));
+}
+
+// 記事の詳細情報を取得
+const { contentId } = Astro.params;
+const news = await getNewsDetail(contentId as string);
+const { id: categoryId, name: categoryName } = news.category;
+
+// Prev, Next用記事情報を取得
+//   ＜メモ＞
+//   ・まず記事を全件取得して配列へ
+//   ・現在の記事のindexを取得
+// 　・その前後のindexを取得してallNewsから記事データを取得
+const allNews: News[] = await getAllNews({
+  fields: ["id", "title", "description", "category", "thumbnail"],
+});
+const index = allNews.findIndex((news) => news.id === contentId);
+const prevNews = allNews[index - 1];
+const nextNews = allNews[index + 1];
+
+// 関連記事取得：同じカテゴリーの最新記事3件
+const relatedNews = await getNews({
+  limit: RELATED_NEWS_LIST_LIMIT,
+  fields: ["id", "title", "description", "category", "thumbnail"],
+  filters: `category[equals]${categoryId}[and]id[not_equals]${contentId}`,
+});
+---
+
+<Layout title={`${news.title} | ${SITE_NAME}`}>
+  <!-- <TopArea /> -->
+
+  <main>
+    <Container size="m">
+      <!-- NewsDetail -->
+      <Stack g="50" p="50" mt="50">
+        <!-- Title, Metas -->
+        <Stack g="30">
+          <Text tag="h1" class="title">{news.title}</Text>
+          <p class="publishedAt">
+            公開日：{formatDate(news.publishedAt ?? "----/--/--")}
+          </p>
+        </Stack>
+
+        <!-- Thumbnail -->
+        {
+          news.thumbnail ? (
+            <Frame ar="16/9">
+              <Media
+                src={news.thumbnail.url}
+                alt=""
+                width="600"
+                height="480"
+                objectFit="cover"
+              />
+            </Frame>
+          ) : (
+            <div />
+          )
+        }
+
+        <!-- Contents -->
+        <Box set:html={news.content} mt="" />
+
+        <!-- Category -->
+        <Flex variant="cluster" g="20">
+          <Link d="b" href={`${CATEGORY_BASE_PATH}/${news.category.id}`}>
+            <Box variant="outline" fz="s">{news.category.name}</Box>
+          </Link>
+        </Flex>
+
+        <!-- Profile -->
+        <Profile author={news.author} />
+
+        <!-- Prev, Next -->
+        <PrevNext
+          prevNews={prevNews}
+          nextNews={nextNews}
+          basePath={NEWS_BASE_PATH}
+        />
+
+        <!-- Related Posts -->
+        <RelatedNews
+          relatedNews={relatedNews.contents}
+          categoryName={categoryName}
+        />
+      </Stack>
+      <!-- NewsDetail -->
+    </Container>
+  </main>
+</Layout>

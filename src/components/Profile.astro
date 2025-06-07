@@ -1,0 +1,34 @@
+---
+interface Props {
+  author: Members;
+}
+
+const {
+  author,
+} = Astro.props;
+
+import { DEFAULT_AVATAR_URL } from "@constants/index.astro";
+import type { Members } from "@libraries/microcms";
+import Avatar from "@components/_optin/Avatar.astro";
+import { 
+  Grid,
+  Stack,
+  Text,
+} from "lism-css/astro";
+---
+
+<Grid gtc={["1fr", "100px 1fr"]} g="40" p="40" bgc="base-2">
+  {author ? (
+    <Avatar src={author.image.url} size="100%" />
+    <Stack g="10">
+      <Text fz="l" fw="bold">{author.name}</Text>
+      <Text fz="s" c="text-2">{author.profile}</Text>
+    </Stack>
+  ) : (
+    <Avatar src={DEFAULT_AVATAR_URL} size="100%" />
+    <Stack g="10">
+      <Text fz="l" fw="bold">Author Name</Text>
+      <Text fz="" c="text-2">ここに書いた人のプロフィールが入ります</Text>
+    </Stack>
+  )}
+</Grid>

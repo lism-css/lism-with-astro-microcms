@@ -8,7 +8,7 @@ const { news } = Astro.props;
 import { DEFAULT_THUMBNAIL_URL } from "@constants/index.astro";
 import type { News } from "@libraries/microcms";
 import {
-  Box,
+  Flex,
   Frame,
   Grid,
   Link,
@@ -20,13 +20,13 @@ import {
 } from "lism-css/astro";
 ---
 
-<Lism tag="ul" pl="0" bd="t" bdc="divider">
+<Lism tag="ul" pl="0">
   {
     news.map((content: any) => (
-      <LinkBox tag="li" key={content.id} bd="b" bdc="divider" py="40">
+      <LinkBox tag="li" key={content.id} py="40">
         <Grid gtc="min(16rem, 30vw) 1fr" g="40">
-          {content.thumbnail ? (
-            <Frame ar="16/9">
+          <Frame ar="16/9" bdrs="3">
+            {content.thumbnail ? (
               <Media
                 src={content.thumbnail.url}
                 alt=""
@@ -34,9 +34,7 @@ import {
                 height="140"
                 objectFit="cover"
               />
-            </Frame>
-          ) : (
-            <Frame ar="16/9">
+            ) : (
               <Media
                 src={DEFAULT_THUMBNAIL_URL}
                 alt=""
@@ -44,17 +42,25 @@ import {
                 height="140"
                 objectFit="cover"
               />
-            </Frame>
-          )}
+            )}
+          </Frame>
           <Stack ai="fs" jc="c" g="20">
-            <Box fz="s" variant="outline">
-              {content.category.name}
-            </Box>
-            <Text fz="l" fw="bold">
-              <Link isOverlayLink href={`/news/${content.id}`}>
+            <Text fz="l" fw="normal" c="text-1">
+              <Link class="u--overlayLink" href={`/news/${content.id}`}>
                 {content.title}
               </Link>
             </Text>
+            <Flex fz="s" variant="outline">
+              <Text>
+                <Link
+                  href={`/category/${content.category.slug}`}
+                  c="text-2"
+                  td="n"
+                >
+                  {content.category.name}
+                </Link>
+              </Text>
+            </Flex>
           </Stack>
         </Grid>
       </LinkBox>

@@ -1,0 +1,45 @@
+---
+interface Props {
+  prevNews: News;
+  nextNews: News;
+  basePath?: string;
+}
+
+const { prevNews, nextNews, basePath = "/news" } = Astro.props;
+
+import type { News } from "@libraries/microcms";
+import { Grid, Icon, LinkBox, Text } from "lism-css/astro";
+---
+
+<Grid gtc={["1fr", null, "repeat(2, 1fr)"]} g="40">
+  {
+    prevNews ? (
+      <LinkBox href={`${basePath}/${prevNews.id}`}>
+        <Grid gtc="auto 1fr" ai="c" g="30">
+          <Icon icon="caret-down" fz="100%" css={{ rotate: "90deg" }} />
+          <Text fz="s">{prevNews.title}</Text>
+        </Grid>
+      </LinkBox>
+    ) : (
+      <Text fz="s" c="text:35%">
+        最新のニュースです
+      </Text>
+    )
+  }
+  {
+    nextNews ? (
+      <LinkBox href={`${basePath}/${nextNews.id}`}>
+        <Grid gtc="1fr auto" ai="c" g="30">
+          <Text fz="s" ta="r">
+            {nextNews.title}
+          </Text>
+          <Icon icon="caret-down" fz="100%" css={{ rotate: "-90deg" }} />
+        </Grid>
+      </LinkBox>
+    ) : (
+      <Text fz="s" ta="r" c="text:35%">
+        最も古いニュースです
+      </Text>
+    )
+  }
+</Grid>

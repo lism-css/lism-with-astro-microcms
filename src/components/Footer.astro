@@ -4,13 +4,22 @@ import { Box, Container, Flex, Link, Lism, Stack, Text } from "lism-css/astro";
 
 <Container tag="footer" size="l" hasGutter>
   <Stack ai="c" g="10" py="40">
-    <Text c="text-1" fz="l" fw="normal" lts="xl">LismAstro</Text>
+    <Text c="text-1" fz="xl" fw="normal" lts="xl">LismAstro</Text>
     <Lism tag="nav">
       <Flex tag="ul" jc="fe" g="10">
-        <Box tag="li"><Link d="b" p="10" href="/">Home</Link></Box>
-        <Box tag="li"><Link d="b" p="10" href="/about">About</Link></Box>
-        <Box tag="li"><Link d="b" p="10" href="/news">News</Link></Box>
-        <Box tag="li"><Link d="b" p="10" href="/contact">Contact</Link></Box>
+        <Box tag="li"
+          ><Link d="b" p="10" c="text-2" td="n" href="/">Home</Link></Box
+        >
+        <Box tag="li"
+          ><Link d="b" p="10" c="text-2" td="n" href="/about">About</Link></Box
+        >
+        <Box tag="li"
+          ><Link d="b" p="10" c="text-2" td="n" href="/news">News</Link></Box
+        >
+        <Box tag="li"
+          ><Link d="b" p="10" c="text-2" td="n" href="/contact">Contact</Link
+          ></Box
+        >
       </Flex>
     </Lism>
     <Text c="text-2" fz="s" ai="c" py="20">
