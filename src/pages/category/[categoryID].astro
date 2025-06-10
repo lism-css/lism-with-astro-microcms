@@ -1,0 +1,49 @@
+---
+import { getNews, getAllCategories } from "@libraries/microcms";
+import Layout from "@layouts/Layout.astro";
+import Pagination from "@components/Pagination.astro";
+import NewsList from "@components/News.astro";
+import { Center, Container, Stack, Text } from "lism-css/astro";
+import {
+  SITE_NAME,
+  NEWS_LIST_LIMIT,
+  CATEGORY_BASE_PATH,
+} from "@constants/index.astro";
+
+const { categoryID } = Astro.params;
+
+// カテゴリーページの全パスを取得
+export async function getStaticPaths() {
+  const response = await getAllCategories({ fields: ["id"] });
+  return response.map((content: any) => ({
+    params: {
+      categoryID: content.id,
+    },
+  }));
+}
+
+// カテゴリー一覧を取得
+const { contents: news, totalCount } = await getNews({
+  fields: ["id", "title", "description", "category", "thumbnail"],
+  filters: `category[equals]${categoryID}`,
+  limit: NEWS_LIST_LIMIT,
+});
+const categoryName = news[0].category.name;
+---
+
+<Layout title={`${categoryName} | ${SITE_NAME}`}>
+  <Container size="m" hasGutter mt="50">
+    <Center minH="30svh" bgc="base-1">
+      <Stack g="10" ai="c">
+        <Text fz="2xl" fw="normal" lts="xl">{categoryName}</Text>
+      </Stack>
+    </Center>
+    <Stack g="40">
+      <NewsList news={news} />
+      <Pagination
+        totalCount={totalCount}
+        basePath={`${CATEGORY_BASE_PATH}/${categoryID}`}
+      />
+    </Stack>
+  </Container>
+</Layout>

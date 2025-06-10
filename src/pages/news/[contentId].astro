@@ -70,10 +70,13 @@ const relatedNews = await getNews({
       <Stack g="50" p="50" mt="50">
         <!-- Title, Metas -->
         <Stack g="30">
-          <Text tag="h1" class="title">{news.title}</Text>
-          <p class="publishedAt">
-            公開日：{formatDate(news.publishedAt ?? "----/--/--")}
-          </p>
+          <Text tag="h1" fz="3xl">{news.title}</Text>
+          <Flex g="20" fz="s" c="text-2">
+            <span>{formatDate(news.publishedAt ?? "----年--月--日")}</span>
+            <Link href={`${CATEGORY_BASE_PATH}/${news.category.id}`} c="text-2"
+              >{news.category.name}</Link
+            >
+          </Flex>
         </Stack>
 
         <!-- Thumbnail -->
@@ -89,7 +92,7 @@ const relatedNews = await getNews({
               />
             </Frame>
           ) : (
-            <div />
+            ""
           )
         }
 
@@ -119,7 +122,7 @@ const relatedNews = await getNews({
           categoryName={categoryName}
         />
       </Stack>
-      <!-- NewsDetail -->
+      <!-- /NewsDetail -->
     </Container>
   </main>
 </Layout>

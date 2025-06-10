@@ -6,7 +6,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const formatDate = (date: string) => {
-  return dayjs.utc(date).tz('Asia/Tokyo').format('YYYY-MM-DD');
+  return dayjs.utc(date).tz('Asia/Tokyo').format('YYYY年MM月DD日');
 };
 
 export const capitalizeAndFormat = (text: string): string => {

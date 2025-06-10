@@ -1,0 +1,81 @@
+---
+import { NEWS_LIST_LIMIT, NEWS_BASE_PATH } from "@constants/index.astro";
+import { Box, Flex, Link, Text } from "lism-css/astro";
+
+interface Props {
+  totalCount: number;
+  current?: number;
+  basePath?: string;
+}
+
+const { totalCount = 10, current = 1, basePath = NEWS_BASE_PATH } = Astro.props;
+
+const pages = Array.from(
+  { length: Math.ceil(totalCount / NEWS_LIST_LIMIT) },
+  (_, i) => i + 1,
+);
+---
+
+<Box tag="nav">
+  <Flex tag="ul" jc="c" g="30">
+    {
+      pages.map((p) => (
+        <li>
+          {() => {
+            if (p !== Number(current) && p === 1) {
+              return (
+                <Link
+                  href={`${basePath}`}
+                  d="f"
+                  ai="c"
+                  jc="c"
+                  bgc="base-2"
+                  w="2.4rem"
+                  h="2.4rem"
+                  bdrs="2"
+                  c="text-2"
+                  td="n"
+                >
+                  {p}
+                </Link>
+              );
+            } else if (p !== Number(current)) {
+              return (
+                <Link
+                  href={`${basePath}/p/${p}`}
+                  d="f"
+                  ai="c"
+                  jc="c"
+                  bgc="base-2"
+                  w="2.4rem"
+                  h="2.4rem"
+                  bdrs="2"
+                  c="text-2"
+                  td="n"
+                >
+                  {p}
+                </Link>
+              );
+            } else {
+              return (
+                <Text
+                  tag="span"
+                  d="f"
+                  ai="c"
+                  jc="c"
+                  bgc="black"
+                  c="white"
+                  w="2.4rem"
+                  h="2.4rem"
+                  bdrs="2"
+                >
+                  {p}
+                </Text>
+              );
+            }
+          }}
+        </li>
+      ))
+    }
+  </Flex>
+</Box>

@@ -2,6 +2,7 @@
 import { getNews } from "@libraries/microcms";
 import Layout from "@layouts/Layout.astro";
 import News from "@components/News.astro";
+import Pagination from "@components/Pagination.astro";
 import { Center, Container, Stack, Text } from "lism-css/astro";
 import {
   SITE_NAME,
@@ -10,7 +11,7 @@ import {
 } from "@constants/index.astro";
 
 //microCMS呼び出し
-const response = await getNews({
+const { contents: news, totalCount } = await getNews({
   fields: ["id", "title", "description", "category", "thumbnail"],
   limit: NEWS_LIST_LIMIT,
 });
@@ -24,7 +25,8 @@ const response = await getNews({
   </Center>
   <Container size="m" hasGutter>
     <Stack py="40">
-      <News news={response.contents} />
+      <News news={news} />
+      <Pagination totalCount={totalCount} />
     </Stack>
   </Container>
 </Layout>

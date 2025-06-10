@@ -1,0 +1,46 @@
+---
+import { getNews } from "@libraries/microcms";
+import Layout from "@layouts/Layout.astro";
+import Pagination from "@components/Pagination.astro";
+import News from "@components/News.astro";
+import { NEWS_LIST_LIMIT } from "@constants/index.astro";
+import { Center, Container, Stack, Text } from "lism-css/astro";
+
+// ニュース一覧ページの全パスを取得
+//   SSG用：全てのルートをビルド時に決める必要があるため
+export async function getStaticPaths() {
+  const { contents: news, totalCount } = await getNews({ fields: ["id"] });
+  const pages = Array.from(
+    { length: Math.ceil(totalCount / NEWS_LIST_LIMIT) },
+    (_, i) => i + 1,
+  );
+
+  return pages.map((page: any) => ({
+    params: {
+      current: page,
+    },
+  }));
+}
+
+// 表示するコンテンツを取得
+const { current } = Astro.params;
+const { contents: news, totalCount } = await getNews({
+  fields: ["id", "title", "description", "category", "thumbnail"],
+  limit: NEWS_LIST_LIMIT,
+  offset: NEWS_LIST_LIMIT * (current - 1),
+});
+---
+
+<Layout title="My first blog with Astro">
+  <Center minH="30svh" bgc="base-1">
+    <Stack g="10" ai="c">
+      <Text fz="2xl" fw="normal" lts="xl">News</Text>
+    </Stack>
+  </Center>
+  <Container size="m" hasGutter mt="50">
+    <Stack g="40">
+      <News news={news} />
+      <Pagination totalCount={totalCount} current={current} />
+    </Stack>
+  </Container>
+</Layout>
