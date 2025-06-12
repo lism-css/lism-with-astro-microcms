@@ -22,7 +22,7 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
     );
     return paginate(filteredNews, {
       params: {
-        categoryID: category.id,
+        contentId: category.id,
       },
       pageSize: NEWS_LIST_LIMIT,
     });
@@ -30,17 +30,22 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 };
 
 // 表示するコンテンツを取得
-const { categoryID, page } = Astro.params;
+const { contentId, page } = Astro.params;
+// pageの型をnumberに絞る
+const pageNum = Number(page);
+if (isNaN(pageNum) || pageNum < 1) {
+  throw new Error("Invalid page number");
+}
 const { contents: news, totalCount } = await getNews({
   fields: ["id", "title", "description", "category", "thumbnail"],
-  filters: `category[equals]${categoryID}`,
+  filters: `category[equals]${contentId}`,
   limit: NEWS_LIST_LIMIT,
-  offset: NEWS_LIST_LIMIT * (page - 1),
+  offset: NEWS_LIST_LIMIT * (pageNum - 1),
 });
 const categoryName = news[0].category.name;
 ---
 
-<Layout title={`${page}ページ - ${categoryName} | ${SITE_NAME}`}>
+<Layout title={`${pageNum}ページ - ${categoryName} | ${SITE_NAME}`}>
   <Container size="m" hasGutter mt="50">
     <Center minH="30svh" bgc="base-1">
       <Stack g="10" ai="c">
@@ -51,8 +56,8 @@ const categoryName = news[0].category.name;
       <NewsList news={news} />
       <Pagination
         totalCount={totalCount}
-        current={page}
-        basePath={`${CATEGORY_BASE_PATH}/${categoryID}`}
+        current={pageNum}
+        basePath={`${CATEGORY_BASE_PATH}/${contentId}`}
       />
     </Stack>
   </Container>

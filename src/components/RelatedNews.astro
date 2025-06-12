@@ -21,7 +21,7 @@ import { Frame, Grid, LinkBox, Media, Stack, Text } from "lism-css/astro";
 ---
 
 <Stack g="40">
-  <Text fz="2xl" fw="bold" ta="c">最近の{categoryName}</Text>
+  <Text fz="xl" ta="c">最近の{categoryName}</Text>
   <Grid gtc={["1fr", null, "repeat(3, 1fr)"]} g="50">
     {
       relatedNews.map((content: any) => (

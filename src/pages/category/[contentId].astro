@@ -10,14 +10,14 @@ import {
   CATEGORY_BASE_PATH,
 } from "@constants/index.astro";
 
-const { categoryID } = Astro.params;
+const { contentId } = Astro.params;
 
 // カテゴリーページの全パスを取得
 export async function getStaticPaths() {
   const response = await getAllCategories({ fields: ["id"] });
   return response.map((content: any) => ({
     params: {
-      categoryID: content.id,
+      contentId: content.id,
     },
   }));
 }
@@ -25,7 +25,7 @@ export async function getStaticPaths() {
 // カテゴリー一覧を取得
 const { contents: news, totalCount } = await getNews({
   fields: ["id", "title", "description", "category", "thumbnail"],
-  filters: `category[equals]${categoryID}`,
+  filters: `category[equals]${contentId}`,
   limit: NEWS_LIST_LIMIT,
 });
 const categoryName = news[0].category.name;
@@ -42,7 +42,7 @@ const categoryName = news[0].category.name;
       <NewsList news={news} />
       <Pagination
         totalCount={totalCount}
-        basePath={`${CATEGORY_BASE_PATH}/${categoryID}`}
+        basePath={`${CATEGORY_BASE_PATH}/${contentId}`}
       />
     </Stack>
   </Container>

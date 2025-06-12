@@ -1,20 +1,33 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import {
+	Box,
 	Center,
 	Container,
+	Flex,
 	Grid,
 	GridItem,
 	LinkBox,
+	Lism,
 	Text,
 } from "lism-css/astro";
 ---
 
 <Layout title="Astro with Lism CSS">
-	<Center my="auto">
-		<Text fz="3xl">Welcome to Astro with Lism CSS</Text>
-		<Text fz="m" c="text-2"
-			>This is a sample page using Astro and Lism CSS.</Text
-		>
-	</Center>
+	<Container my="auto">
+		<Center g="5" py="80">
+			<Flex fz={["10vw", "3xl"]} g="20">
+				<Text>Welcome to Astro with</Text>
+				<Box
+					class="u--clipText"
+					bg="linear-gradient(45deg, var(--blue), var(--pink))"
+				>
+					<Text fw="200">Lism CSS</Text>
+				</Box>
+			</Flex>
+			<Text fz="m" c="text-2"
+				>This is a sample page using Astro and Lism CSS.</Text
+			>
+		</Center>
+	</Container>
 </Layout>
