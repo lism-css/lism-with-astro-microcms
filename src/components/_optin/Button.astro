@@ -1,0 +1,62 @@
+---
+import { Flex } from "lism-css/astro";
+
+const { layout, ...props } = Astro.props;
+const Layout = layout || Flex;
+---
+
+<Layout
+  lismClass="c--button"
+  variant="fill"
+  tag="a"
+  td="n"
+  lh="xs"
+  px="30"
+  py="20"
+  ai="c"
+  {...props}
+>
+  <slot />
+</Layout>
+
+<style>
+  @layer lism.component {
+    .c--button {
+      --c: currentColor;
+      --bgc: transparent;
+      --bdc: transparent;
+
+      color: var(--c);
+      background-color: var(--bgc);
+      border: solid 1px var(--bdc); /* 異なる variant を並べてもサイズに差が出ないようにborderを常に指定 */
+    }
+    .c--button-fill {
+      --c: var(--c-base);
+      --bgc: var(--c-text);
+      --bdc: var(--bgc);
+    }
+    .c--button-outline {
+      --c: var(--c-text);
+      --bdc: var(--c);
+    }
+    :where(.c--button) > .l--icon {
+      --scale: 1.125;
+    }
+    .-hov\:reverse {
+      --hov-c: var(--bgc);
+      --hov-bgc: var(--c);
+      &:where(.c--button-fill) {
+        --hov-bgc: transparent;
+      }
+      &:where(.c--button-outline) {
+        --hov-c: var(--c-base);
+      }
+      @media (any-hover: hover) {
+        &:hover {
+          background-color: var(--hov-bgc) !important;
+          color: var(--hov-c) !important;
+        }
+      }
+    }
+  }
+</style>

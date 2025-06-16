@@ -1,0 +1,51 @@
+---
+import Button from "@components/_optin/Button.astro";
+import { Box, Flex, Icon, Link, Lism, Stack } from "lism-css/astro";
+---
+
+<Flex tag="ul" jc="fe" g="40">
+  <Flex tag="li"
+    ><Link href="/" d="b" py="30" c="text-1" td="n">Home</Link></Flex
+  >
+  <Flex tag="li"
+    ><Link href="/about" d="b" py="30" c="text-1" td="n">About</Link></Flex
+  >
+  <Flex tag="li"
+    ><Link href="/news" d="b" py="30" c="text-1" td="n">News</Link></Flex
+  >
+  <Flex tag="li" pos="r" hov="set">
+    <Link href="/pages" d="b" py="30" c="text-1" td="n">Has Child</Link>
+    <Lism tag="button" bd="n" bgc="n" pl="10" pr="0">
+      <Icon icon="caret-down" fz="2xs" />
+    </Lism>
+    <Stack
+      tag="ul"
+      pos="a"
+      t="100%"
+      l="50%"
+      css={{ trnslt: "-50X" }}
+      minW="14rem"
+      bgc="base-2"
+      hov="get:show"
+    >
+      <Flex tag="li"
+        ><Link href="/" d="b" w="100%" p="30" c="text-1" td="n">Child</Link
+        ></Flex
+      >
+      <Flex tag="li"
+        ><Link href="/" d="b" w="100%" p="30" c="text-1" td="n">Child</Link
+        ></Flex
+      >
+      <Flex tag="li"
+        ><Link href="/" d="b" w="100%" p="30" c="text-1" td="n">Child</Link
+        ></Flex
+      >
+    </Stack>
+  </Flex>
+  <Flex tag="li" aslf="c">
+    <Button href="###" hov="reverse" variant="outline" c="black" bdrs="20"
+      >Contact</Button
+    >
+    <Flex tag="li" />
+  </Flex>
+</Flex>
